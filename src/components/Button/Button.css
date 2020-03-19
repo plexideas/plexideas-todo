@@ -1,0 +1,25 @@
+button {
+  background: none;
+  border: none;
+  height: 2rem;
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+button:hover {
+  background: rgb(145, 81, 246);
+  color: white;
+
+  --box-shadow: 0 4px 15px rgb(145, 81, 246);
+}
+
+button:active {
+  background: rgb(255, 124, 52);
+  --box-shadow: 0 4px 5px rgb(255, 124, 52);
+  color: white;
+}

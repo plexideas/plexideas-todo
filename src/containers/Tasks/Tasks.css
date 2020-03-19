@@ -1,0 +1,12 @@
+.tasks {
+  margin: 0 auto;
+  width: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tasks h1 {
+  font-weight: 100;
+  text-transform: uppercase;
+}

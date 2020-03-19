@@ -1,0 +1,8 @@
+.status-select {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.hide :not(:first-child) {
+  display: none;
+}
