@@ -22,8 +22,10 @@ router.get('/login/failed', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+  req.session?.destroy(() =>{
+    req.logout();
+    res.redirect('/');
+  })
 });
 
 router.get('/google', 
@@ -31,7 +33,7 @@ router.get('/google',
 );
 
 router.get('/google/callback', 
-  passport.authenticate('google', { successRedirect: '/', failureRedirect: '/login' }),
+  passport.authenticate('google', { successRedirect: 'http://localhost:3000', failureRedirect: '/api/auth/login/failed' }),
 );
 
 export default router;

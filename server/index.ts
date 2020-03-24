@@ -6,14 +6,32 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import cookieParser from 'cookie-parser';
+import { ApolloServer } from 'apollo-server-express';
+import * as http from "http";
 
 import authRouter from './routes/auth-router';
 import * as kyes from './config/keys';
+
+import { resolvers, schema } from './graphql';
 
 import './config/passport';
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+const apolloServer = new ApolloServer({
+  schema,
+  resolvers,
+  tracing: true,
+  // context: ({ req }) => ({
+  //   user: (req as any).user,
+  // }),
+});
+
+const httpServer = http.createServer(app);
+
+apolloServer.applyMiddleware({ app })
+apolloServer.installSubscriptionHandlers(httpServer);
 
 const MongoStore = connectMongo(session);
 
@@ -50,9 +68,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => res.send('Hello World!'));
-app.get('/api', (req, res) => res.send('Hello Api!'));
+app.get('/api', (req, res) => console.log('API'));
 app.use('/api/auth', authRouter);
 
 
-app.listen(port, () => console.log(`\n🚀 Server has started on port: ${port} \n`));
+httpServer.listen(port, () => console.log(`\n🚀 Server has started on port: ${port} \n`));

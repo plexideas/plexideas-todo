@@ -1,6 +1,6 @@
 export type task = {
-  id: any;
-  task: string;
+  _id: any;
+  text: string;
   owner: string;
   status: 'NEW' | 'IN PROGRES' | 'HOLD' | 'DONE';
   created: string;

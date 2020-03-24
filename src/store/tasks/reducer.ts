@@ -16,7 +16,7 @@ export default (state = initialState, action: AnyAction) => {
       };
     }
     case types.DELETE_TASK: {
-      const taskList = state.taskList.filter(task => task.id !== action.payload);
+      const taskList = state.taskList.filter(task => task._id !== action.payload);
       return {
         taskList: taskList
       };
@@ -24,7 +24,7 @@ export default (state = initialState, action: AnyAction) => {
     case types.CHANGE_STATUS: {
       const taskList = [...state.taskList];
       taskList.forEach(task => {
-        if (task.id === action.payload.id) task.status = action.payload.status;
+        if (task._id === action.payload._id) task.status = action.payload.status;
       })
       return {
         taskList: taskList
@@ -33,7 +33,7 @@ export default (state = initialState, action: AnyAction) => {
     case types.EDIT_TASK: {
       const taskList = [...state.taskList];
       taskList.forEach(task => {
-        if (task.id === action.payload) task.isEdit = !task.isEdit;
+        if (task._id === action.payload) task.isEdit = !task.isEdit;
       })
       return {
         taskList: taskList
@@ -43,8 +43,8 @@ export default (state = initialState, action: AnyAction) => {
     case types.SAVE_EDIT_TASK: {
       const taskList = [...state.taskList];
       taskList.forEach(task => {
-        if (task.id === action.payload.id) {
-          task.task = action.payload.task;
+        if (task._id === action.payload._id) {
+          task.text = action.payload.task;
           task.isEdit = false;
         };
       })

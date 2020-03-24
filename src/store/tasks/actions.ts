@@ -4,8 +4,8 @@ import * as types from './actionTypes';
 
 export function onCreateTask(content: string) {
   const newTask: task = {
-    id: uuidv4(),
-    task: content,
+    _id: uuidv4(),
+    text: content,
     owner: 'anonym',
     status: "NEW",
     created: new Date().toString(),
@@ -31,6 +31,6 @@ export function editTask(id: any) {
   return { type: types.EDIT_TASK, payload: id }
 }
 
-export function saveEditTask(id: any, task: string) {
-  return { type: types.SAVE_EDIT_TASK, payload: { id, task } }
+export function saveEditTask(id: any, text: string) {
+  return { type: types.SAVE_EDIT_TASK, payload: { id, text } }
 }

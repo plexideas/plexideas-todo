@@ -1,0 +1,27 @@
+.auth {
+  position: fixed;
+  max-width: 100px;
+  top: 0;
+  right: 0;
+
+  padding: 1rem 1rem;
+}
+
+.auth-logout {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.auth-userinfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-button {
+  padding: 0 1rem;
+  font-weight: 100;
+
+  text-transform: uppercase;
+}

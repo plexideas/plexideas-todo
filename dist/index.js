@@ -18,13 +18,23 @@ const passport_1 = __importDefault(require("passport"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const apollo_server_express_1 = require("apollo-server-express");
+const http = __importStar(require("http"));
 const auth_router_1 = __importDefault(require("./routes/auth-router"));
 const kyes = __importStar(require("./config/keys"));
+const graphql_1 = require("./graphql");
 require("./config/passport");
 const app = express_1.default();
 const port = process.env.PORT || 5000;
+const apolloServer = new apollo_server_express_1.ApolloServer({
+    schema: graphql_1.schema,
+    resolvers: graphql_1.resolvers,
+    tracing: true,
+});
+const httpServer = http.createServer(app);
+apolloServer.applyMiddleware({ app });
+apolloServer.installSubscriptionHandlers(httpServer);
 const MongoStore = connect_mongo_1.default(express_session_1.default);
-let user = {};
 mongoose_1.default.set('useCreateIndex', true);
 mongoose_1.default.connect(kyes.MONGODB.MONGODB_URI, {
     useNewUrlParser: true,
@@ -46,35 +56,10 @@ app.use(express_session_1.default({
 app.use(cors_1.default({
     origin: "http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // allow session cookie from browser to pass through
+    credentials: true,
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-// passport.serializeUser((user: any, done: any) => {
-//   done(null, user);
-// });
-// passport.deserializeUser((user: any, done: any) => {
-//   done(null, user);
-// });
-// passport.use(new OAuth2Strategy({
-//     clientID: kyes.GOOGLE.CLIENT_ID,
-//     clientSecret: kyes.GOOGLE.CLIENT_SECRET,
-//     callbackURL: kyes.GOOGLE.CALLBACK_URL
-//   }, 
-//   (accessToken, refreshToken, profile:any, done) => {
-//     user = {
-//       email: profile.emails[0].value,
-//       name: profile.displayName,
-//       givenName: profile.name.givenName,
-//       familynName: profile.name.familyName,
-//       picture: profile.photos[0],
-//       token: accessToken
-//     };
-//     console.log(user);
-//   done(null, user);
-//  })
-// );
-app.get('/', (req, res) => res.send('Hello World!'));
-app.get('/api', (req, res) => res.send('Hello Api!'));
+app.get('/api', (req, res) => console.log('API'));
 app.use('/api/auth', auth_router_1.default);
-app.listen(port, () => console.log(`\n🚀 Server has started on port: ${port} \n`));
+httpServer.listen(port, () => console.log(`\n🚀 Server has started on port: ${port} \n`));

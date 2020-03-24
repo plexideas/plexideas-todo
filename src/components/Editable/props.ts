@@ -2,6 +2,6 @@ export type Props = {
   children?: any;
   className?: string;
   isEdit?: boolean;
-  onDoubleClick: any;
+  onChangeEditable: any;
   onSaveEditTask: any;
 }

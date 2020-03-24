@@ -9,8 +9,14 @@ passport.serializeUser((user: any, done: any) => {
   done(null, user);
 });
 
-passport.deserializeUser((user: any, done: any) => {
-  done(null, user);
+passport.deserializeUser((id, done: any) => {
+  User.findById(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(e => {
+      done(new Error("Failed to deserialize an user"));
+    });
 });
 
 passport.use(new OAuth2Strategy({
