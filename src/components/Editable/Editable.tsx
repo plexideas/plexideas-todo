@@ -1,14 +1,10 @@
 import React from 'react';
-import { EDIT_TASK } from '../../graphql/task';
-import { useMutation } from '@apollo/react-hooks';
-
 import { Props } from './props';
 import './Editable.css';
 
 const Editable: React.FC<Props> = ({isEdit , ...props}) => {
   const { children, className, onChangeEditable, onSaveEditTask } = props;
-
-
+  
   const onBlurHandler = (e: any) => {
     onSaveEditTask(e.target.value);
     onChangeEditable();

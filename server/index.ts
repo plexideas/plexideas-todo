@@ -22,10 +22,7 @@ const port = process.env.PORT || 5000;
 const apolloServer = new ApolloServer({
   schema,
   resolvers,
-  tracing: true,
-  // context: ({ req }) => ({
-  //   user: (req as any).user,
-  // }),
+  tracing: true
 });
 
 const httpServer = http.createServer(app);

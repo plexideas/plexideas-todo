@@ -42,7 +42,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <Auth authenticated={authenticated} handleNotAuthenticated={this._handleNotAuthenticated} photo={user.picture} />
-        { authenticated && <Tasks /> }
+        { authenticated && <Tasks user={user} /> }
       </div>
     );
   }

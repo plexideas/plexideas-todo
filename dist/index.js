@@ -29,7 +29,7 @@ const port = process.env.PORT || 5000;
 const apolloServer = new apollo_server_express_1.ApolloServer({
     schema: graphql_1.schema,
     resolvers: graphql_1.resolvers,
-    tracing: true,
+    tracing: true
 });
 const httpServer = http.createServer(app);
 apolloServer.applyMiddleware({ app });

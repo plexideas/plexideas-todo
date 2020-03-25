@@ -10,21 +10,18 @@ export default {
   Subscription: {
     taskCreated: {
       resolve: (data: any) => {
-        console.log("Subscription taskCreated: ", data)
         return data
       },
       subscribe: () => pubSub.asyncIterator([TASK_CREATED])
     },
     taskDeleted: {
       resolve: (data: any) => {
-        console.log("Subscription taskDeleted: ", data)
         return data
       },
       subscribe: () => pubSub.asyncIterator([TASK_DELETED])
     },
     taskEdited: {
       resolve: (data: any) => {
-        console.log("Subscription taskEdited: ", data)
         return data
       },
       subscribe: () => pubSub.asyncIterator([TASK_EDITED])

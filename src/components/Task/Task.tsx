@@ -9,7 +9,7 @@ import './Task.css'
 import { DELETE_TASK, EDIT_TASK } from '../../graphql/task';
 
 const Task = (props: Props) => {
-  const { task, onChangeStatus } = props;
+  const { task } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [ deleteTask ] = useMutation(DELETE_TASK);
   const [ changeTaskStatus ] = useMutation(EDIT_TASK);
@@ -33,7 +33,7 @@ const Task = (props: Props) => {
       <div className="task-menu">
         <div className="task-owner">{task.owner}</div>
         <div className="task-controll">
-          <StatusSelect currentStatus={task.status.toString()} onChangeStatus={onChangeStatus} taskId={task._id} />
+          <StatusSelect currentStatus={task.status.toString()} taskId={task._id} />
           <Button onClick={onDelete}>delete</Button>
         </div>
       </div>

@@ -6,17 +6,14 @@ import { Props } from './props';
 import './TaskList.css'
 
 const TaskList = (props: Props) => {
-  const {taskList,  onDeleteTask, onChangeStatus, onEditTask, onSaveEditTask } = props
+  const { taskList, user } = props
 
   const renderTaskList = (tasks: task[]): ReactElement[] => {
     return taskList.map(task => 
       <Task 
+        user={user}
         task={task}
         key={task._id}
-        onDeleteTask={onDeleteTask}
-        onChangeStatus={onChangeStatus}
-        onEditTask={onEditTask}
-        onSaveEditTask={onSaveEditTask}
       />
     );
   }

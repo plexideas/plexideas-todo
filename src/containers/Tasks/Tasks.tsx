@@ -1,12 +1,7 @@
 import React from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 
 import { TaskList } from '../../components/TaskList';
-import { store } from '../../types/store';
-import * as selectors from '../../store/tasks/selectors';
-import * as taskActions from '../../store/tasks/actions';
 
 import { Props } from './props';
 import './Tasks.css';
@@ -28,7 +23,6 @@ class Tasks extends React.Component<Props> {
           ).length > 0;
         if (isAlreadyExist) return prev;
 
-        console.log("taskCreated: ", newFeedItem)
         return {
           ...prev,
           tasks: [...prev.tasks, newFeedItem]
@@ -51,7 +45,6 @@ class Tasks extends React.Component<Props> {
 
         if (isAlreadyExist) return prev;
         
-        console.log("taskEdited: ", newFeedItem);
         return {
           tasks: prev.tasks.map((task: any) => {
             return task._id === newFeedItem._id ? newFeedItem : task;
@@ -67,7 +60,6 @@ class Tasks extends React.Component<Props> {
       updateQuery: (prev: any, { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev;
         const removedId = subscriptionData.data.taskDeleted;
-        console.log("taskDeleted: ", removedId)
         return {
           tasks: prev.tasks.filter((task: any) => task._id !== removedId)
         };
@@ -76,13 +68,14 @@ class Tasks extends React.Component<Props> {
   }
 
   render() {
-    const { taskList, onCreateTask, onDeleteTask, onChangeStatus, onEditTask, onSaveEditTask } = this.props;
-    
+    const { user } = this.props;
+
+
     return (
       <div className="tasks">
         <h1>Task list</h1>
-        <AddTask onCreateTask={onCreateTask}/>
-        <Query query={GET_ALL_TASK_BY_OWNER} variables={{owner: "OOOO@asdas.er"}}>
+        <AddTask user={user} />
+        <Query query={GET_ALL_TASK_BY_OWNER} variables={{owner: user.email}}>
           {
             ({ data, loading, subscribeToMore }: any) => {
               if (loading) {
@@ -96,49 +89,21 @@ class Tasks extends React.Component<Props> {
               this._subscribeTaskDeleted(subscribeToMore);
 
               return (
-                <TaskList
-                  taskList={data.tasks}
-                  onDeleteTask={onDeleteTask}
-                  onChangeStatus={onChangeStatus}
-                  onEditTask={onEditTask}
-                  onSaveEditTask={onSaveEditTask}
-                />
+                <>
+                  <TaskList
+                    user={user}
+                    taskList={data.tasks}
+                  />
+                  <p>Count: {data.tasks.length}</p>
+                </>
               )
             }
           }
         </Query>
-        <p>Count: {taskList.length}</p>
       </div>
     )
   }
 }
 
-function mapStateToProps(state: store): Props {
-  return {
-    taskList: selectors.getTaskList(state),
-  }
-}
-
-function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    onCreateTask: (content: string) => {
-      dispatch(taskActions.onCreateTask(content));
-    },
-    onDeleteTask: (id: any) => {
-      dispatch(taskActions.deleteTask(id));
-    },
-    onChangeStatus: (id: any, status: string) => {
-      dispatch(taskActions.changeStatus(id, status));
-    },
-    onEditTask: (id: any) => {
-      dispatch(taskActions.editTask(id));
-    },
-    onSaveEditTask: (id: any, task: string) => {
-      dispatch(taskActions.saveEditTask(id, task));
-    }
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
+export default Tasks;
 
