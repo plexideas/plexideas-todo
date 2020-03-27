@@ -1,27 +1,26 @@
 import React, { ReactElement } from 'react';
-import { Props } from './props';
+
 import Task from '../Task/Task';
+import { task } from '../../types/task';
+import { Props } from './props';
 import './TaskList.css'
 
 const TaskList = (props: Props) => {
-  const { taskList, onDeleteTask, onChangeStatus, onEditTask, onSaveEditTask } = props;
+  const { taskList, user } = props
 
-  const renderTaskList = (): ReactElement[] => {
-    return taskList.map(
-      task => <Task 
-                task={task}
-                key={task.id}
-                onDeleteTask={onDeleteTask}
-                onChangeStatus={onChangeStatus}
-                onEditTask={onEditTask}
-                onSaveEditTask={onSaveEditTask}
-              />
+  const renderTaskList = (tasks: task[]): ReactElement[] => {
+    return taskList.map(task => 
+      <Task 
+        user={user}
+        task={task}
+        key={task._id}
+      />
     );
   }
 
   return (
     <ul className="task-list">
-      { renderTaskList() }
+      { renderTaskList(taskList) }
     </ul>
   );
 }

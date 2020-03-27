@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  border: .5px solid #33333330;
+  border: 1px solid #33333330;
 }
 
 .task-content {

@@ -1,10 +1,14 @@
 import React from 'react';
-import { Props } from './props';
-import './StatusSelect.css';
+import { useMutation } from '@apollo/react-hooks';
 import { Button } from '../Button';
 
+import { Props } from './props';
+import './StatusSelect.css';
+import { CHANGE_STATUS } from '../../graphql/task';
+
 const StatusSelect = (props: Props) => {
-  const { currentStatus, onChangeStatus, taskId } = props;
+  const { currentStatus, taskId } = props;
+  const [ changeTaskStatus ] = useMutation(CHANGE_STATUS);
 
   const statusList = ['NEW', 'IN PROGRES', 'HOLD', 'DONE'].filter(status => status !== currentStatus);
 
@@ -23,7 +27,7 @@ const StatusSelect = (props: Props) => {
   const onSelectHandler = (e: any) => {
     e.preventDefault();
     isStatusListVisible = false;
-    onChangeStatus(taskId, e.target.innerText);
+    changeTaskStatus({ variables: { _id: taskId, status: e.target.innerText} });
     toggleClassParentNode(e);
   }
 

@@ -3,10 +3,11 @@ import { Props } from './props';
 import './Editable.css';
 
 const Editable: React.FC<Props> = ({isEdit , ...props}) => {
-  const { children, className, onDoubleClick, onSaveEditTask } = props;
-
+  const { children, className, onChangeEditable, onSaveEditTask } = props;
+  
   const onBlurHandler = (e: any) => {
     onSaveEditTask(e.target.value);
+    onChangeEditable();
   }
 
   const onKeyPressHandler = (e: any) => {
@@ -26,7 +27,7 @@ const Editable: React.FC<Props> = ({isEdit , ...props}) => {
   }
 
   const renderReadOnly = () => {
-    return <div onDoubleClick={onDoubleClick} className={className}>{ children }</div>
+    return <div onDoubleClick={onChangeEditable} className={className}>{ children }</div>
   }
 
   return isEdit ? rednerEditable() : renderReadOnly();
