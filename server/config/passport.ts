@@ -31,6 +31,7 @@ passport.use(new OAuth2Strategy({
 
     if (!currentUser) {
       const newUser = await new User({
+        
         email: profile.emails[0].value,
         name: profile.displayName,
         givenName: profile.name.givenName,
