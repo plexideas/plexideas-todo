@@ -1,6 +1,6 @@
 # Plexideas TODO
 
-This is my pet-project - simple task manager. Tech stack: React, Redux, React Route, Google Auth and etc.
+This is my pet-project - simple task manager. Tech stack: React, ~~Redux~~, GraphQL (Apollo), MongoDB, React Route, Google Auth and etc.
 
 ## Usage
 
